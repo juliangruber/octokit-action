@@ -1,0 +1,12 @@
+name: Octokit.js
+author: juliangruber
+description: 'A generic Octokit.js GitHub Action'
+branding:
+  icon: 'tool'
+  color: purple
+outputs:
+  response:
+    description: The GitHub API response
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

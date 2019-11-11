@@ -1,0 +1,27 @@
+{
+  "name": "octokit-action",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "A generic Octokit.js GitHub Action'",
+  "repository": "juliangruber/octokit-action",
+  "scripts": {
+    "test": "prettier-standard index.js && standard index.js",
+    "build": "ncc build index.js",
+    "version": "npm run build && git add dist",
+    "release": "np"
+  },
+  "np": {
+    "publish": false
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^1.1.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.20.5",
+    "np": "^5.1.3",
+    "prettier-standard": "^15.0.1",
+    "standard": "^14.3.1"
+  }
+}

@@ -2017,21 +2017,41 @@ module.exports = require("os");
 const core = __webpack_require__(470)
 const { GitHub, context } = __webpack_require__(469)
 
+const getAllInputs = () => {
+  const inputs = {}
+  for (const [key, value] of process.env) {
+    if (key.startsWith('INPUT')) {
+      const segs = key.split('_').slice(1)
+      const inputName = segs.join(' ').toLowerCase()
+      inputs[inputName] = value.trim()
+    }
+  }
+  return inputs
+}
+
 const main = async () => {
   const token = core.getInput('github-token')
-  const branch = core.getInput('branch')
+  const command = core.getInput('command')
+  const inputs = getAllInputs()
+
+  core.debug(`command: ${command}`)
+  core.debug(`inputs: ${JSON.stringify(inputs)}`)
 
   const octokit = new GitHub(token)
+  const segs = command.split('.')
+  let fn = octokit
+  for (const seg of segs) fn = fn[seg]
 
-  const res = await octokit.pulls.list({
+  const args = {
     ...context.repo,
-    state: 'open',
-    head: `${context.repo.owner}:${branch}`
-  })
+    ...inputs
+  }
 
-  const pr = res.data.length && res.data[0]
+  core.debug(`args: ${JSON.stringify(args)}`)
 
-  core.setOutput('number', pr ? pr.number : '')
+  const response = await fn.call(octokit, args)
+
+  core.setOutput('response', response)
 }
 
 main().catch(err => core.setFailed(err.message))

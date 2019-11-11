@@ -2039,7 +2039,7 @@ const main = async () => {
 
   const response = await fn.call(octokit, mergedArgs)
 
-  core.setOutput('response', JSON.stringify(response))
+  core.setOutput('response', JSON.stringify(response.data))
 }
 
 main().catch(err => core.setFailed(err.message))

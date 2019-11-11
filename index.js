@@ -20,8 +20,7 @@ const main = async () => {
   const command = core.getInput('command')
   const inputs = getAllInputs()
 
-  core.debug(`command: ${command}`)
-  core.debug(`inputs: ${JSON.stringify(inputs)}`)
+  console.debug({ command, inputs })
 
   const octokit = new GitHub(token)
   const segs = command.split('.')
@@ -33,7 +32,7 @@ const main = async () => {
     ...inputs
   }
 
-  core.debug(`args: ${JSON.stringify(args)}`)
+  console.debug({ args })
 
   const response = await fn.call(octokit, args)
 

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "license": "MIT",
-  "description": "A generic Octokit.js GitHub Action'",
+  "description": "A generic Octokit.js GitHub Action",
   "repository": "juliangruber/octokit-action",
   "scripts": {
     "test": "prettier-standard index.js && standard index.js",

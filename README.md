@@ -1,27 +1,28 @@
-# find-pull-request-action
+# octokit-action
 
-A GitHub Action for finding pull requests.
+An _experimental_ generic Octokit.js GitHub Action.
 
 ## Usage
 
 ```yaml
 steps:
-  - name: Find Pull Request
-    uses: juliangruber/find-pull-request-action@v1
+  - name: Find open Pull Requests
+    uses: juliangruber/octokit-action@v1
     id: find-pull-request
     with:
       github-token: ${{ secrets.GITHUB_TOKEN }}
-      branch: my-branch-name
-  - run: echo "Your Pull Request has number ${number}"
-    if: success() && steps.find-pull-request.outputs.number
+      command: pulls.list
+      state: open
+  - name: Report
+    run: echo "Your have ${count} open Pull Requests"
     env:
-      number: ${{ steps.find-pull-request.outputs.number }}
+      count: ${{ steps.find-pull-request.outputs.response.length }}
 ```
 
-Currently this will find a single open PR based on given `branch` input. For more options please open an issue.
 
 ## Related
 
+- [find-pull-request-action](https://github.com/juliangruber/find-pull-request-action) &mdash; Approve a Pull Request
 - [approve-pull-request-action](https://github.com/juliangruber/approve-pull-request-action) &mdash; Approve a Pull Request
 - [merge-pull-request-action](https://github.com/juliangruber/merge-pull-request-action) &mdash; Merge a Pull Request
 

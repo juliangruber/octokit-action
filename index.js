@@ -18,17 +18,24 @@ const getAllInputs = () => {
 const main = async () => {
   const token = core.getInput('github-token')
   const command = core.getInput('command')
-  const args = getAllInputs()
+  const inputs = getAllInputs()
+
+  core.debug(`command: ${command}`)
+  core.debug(`inputs: ${JSON.stringify(inputs)}`)
 
   const octokit = new GitHub(token)
   const segs = command.split('.')
   let fn = octokit
   for (const seg of segs) fn = fn[seg]
 
-  const response = await fn.call(octokit, {
+  const args = {
     ...context.repo,
-    ...args
-  })
+    ...inputs
+  }
+
+  core.debug(`args: ${JSON.stringify(args)}`)
+
+  const response = await fn.call(octokit, args)
 
   core.setOutput('response', response)
 }

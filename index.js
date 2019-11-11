@@ -3,39 +3,27 @@
 const core = require('@actions/core')
 const { GitHub, context } = require('@actions/github')
 
-const getAllInputs = () => {
-  const inputs = {}
-  for (const [key, value] of process.env) {
-    if (key.startsWith('INPUT')) {
-      const segs = key.split('_').slice(1)
-      const inputName = segs.join(' ').toLowerCase()
-      inputs[inputName] = value.trim()
-    }
-  }
-  return inputs
-}
-
 const main = async () => {
   const token = core.getInput('github-token')
   const command = core.getInput('command')
-  const inputs = getAllInputs()
+  const args = JSON.parse(core.getInput('args'))
 
   core.debug(`command: ${command}`)
-  core.debug(`inputs: ${JSON.stringify(inputs)}`)
+  core.debug(`args: ${JSON.stringify(args)}`)
 
   const octokit = new GitHub(token)
   const segs = command.split('.')
   let fn = octokit
   for (const seg of segs) fn = fn[seg]
 
-  const args = {
+  const mergedArgs = {
     ...context.repo,
     ...inputs
   }
 
-  core.debug(`args: ${JSON.stringify(args)}`)
+  core.debug(`mergedArgs: ${JSON.stringify(mergedArgs)}`)
 
-  const response = await fn.call(octokit, args)
+  const response = await fn.call(octokit, mergedArgs)
 
   core.setOutput('response', response)
 }

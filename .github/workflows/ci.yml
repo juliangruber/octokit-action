@@ -13,7 +13,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           command: pulls.list
           args: '{ "state": "open" }'
-      - name: Report
-        run: echo "Your have ${count} open Pull Requests"
+      - name: Debug
+        run: echo "${response}"
         env:
-          count: ${{ JSON.parse(steps.find-pull-request.outputs.response).length }}
+          response: ${{ steps.find-pull-request.outputs.response}}

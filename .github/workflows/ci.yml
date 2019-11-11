@@ -16,4 +16,4 @@ jobs:
       - name: Report
         run: echo "Your have ${count} open Pull Requests"
         env:
-          count: ${{ steps.find-pull-request.outputs.response.length }}
+          count: ${{ JSON.parse(steps.find-pull-request.outputs.response).length }}

@@ -2032,7 +2032,7 @@ const main = async () => {
 
   const mergedArgs = {
     ...context.repo,
-    ...inputs
+    ...args
   }
 
   core.debug(`mergedArgs: ${JSON.stringify(mergedArgs)}`)

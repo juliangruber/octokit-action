@@ -13,7 +13,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           command: markdown.render
           text: '#beep\nboop!'
-      - name: Debug
+      - name: Print
         run: echo "${response}"
         env:
           response: ${{ steps.markdown.outputs.response }}

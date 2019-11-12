@@ -6,17 +6,17 @@ An _experimental_ generic Octokit.js GitHub Action.
 
 ```yaml
 steps:
-  - name: Find open Pull Requests
+  - name: Render markdown
     uses: juliangruber/octokit-action@v1
-    id: find-pull-request
+    id: markdown
     with:
       github-token: ${{ secrets.GITHUB_TOKEN }}
-      command: pulls.list
-      state: open
-  - name: Report
-    run: echo "Your have ${count} open Pull Requests"
+      command: markdown.render
+      text: '#beep\nboop!'
+  - name: Print
+    run: echo "${response}"
     env:
-      count: ${{ steps.find-pull-request.outputs.response.length }}
+      response: ${{ steps.markdown.outputs.response }}
 ```
 
 

@@ -6,14 +6,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      - name: Find open Pull Requests
+      - name: Render markdown
         uses: ./
-        id: find-pull-request
+        id: markdown
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          command: pulls.list
-          state: open
+          command: markdown.render
+          text: '#beep\nboop!'
       - name: Debug
         run: echo "${response}"
         env:
-          response: ${{ steps.find-pull-request.outputs.response}}
+          response: ${{ steps.markdown.outputs.response }}

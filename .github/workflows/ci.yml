@@ -12,7 +12,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           command: pulls.list
-          args: '{ "state": "open" }'
+          state: open
       - name: Debug
         run: echo "${response}"
         env:

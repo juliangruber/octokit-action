@@ -2017,27 +2017,39 @@ module.exports = require("os");
 const core = __webpack_require__(470)
 const { GitHub, context } = __webpack_require__(469)
 
+const getAllInputs = () => {
+  const inputs = {}
+  for (const [key, value] of Object.entries(process.env)) {
+    if (key.startsWith('INPUT')) {
+      const segs = key.split('_').slice(1)
+      const inputName = segs.join(' ').toLowerCase()
+      inputs[inputName] = value.trim()
+    }
+  }
+  return inputs
+}
+
 const main = async () => {
   const token = core.getInput('github-token')
   const command = core.getInput('command')
-  const args = JSON.parse(core.getInput('args'))
+  const inputs = getAllInputs()
 
   core.debug(`command: ${command}`)
-  core.debug(`args: ${JSON.stringify(args)}`)
+  core.debug(`inputs: ${JSON.stringify(inputs)}`)
 
   const octokit = new GitHub(token)
   const segs = command.split('.')
   let fn = octokit
   for (const seg of segs) fn = fn[seg]
 
-  const mergedArgs = {
+  const args = {
     ...context.repo,
-    ...args
+    ...inputs
   }
 
-  core.debug(`mergedArgs: ${JSON.stringify(mergedArgs)}`)
+  core.debug(`args: ${JSON.stringify(args)}`)
 
-  const response = await fn.call(octokit, mergedArgs)
+  const response = await fn.call(octokit, args)
 
   core.setOutput('response', JSON.stringify(response.data))
 }

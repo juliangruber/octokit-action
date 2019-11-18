@@ -16,9 +16,7 @@ const getAllInputs = () => {
 }
 
 const main = async () => {
-  const token = core.getInput('github-token')
-  const command = core.getInput('command')
-  const inputs = getAllInputs()
+  const { 'github-token': token, command, ...inputs } = getAllInputs()
 
   core.debug(`command: ${command}`)
   core.debug(`inputs: ${JSON.stringify(inputs)}`)

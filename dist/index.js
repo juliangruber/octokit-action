@@ -2022,7 +2022,7 @@ const getAllInputs = () => {
   for (const [key, value] of Object.entries(process.env)) {
     if (key.startsWith('INPUT')) {
       const segs = key.split('_').slice(1)
-      const inputName = segs.join(' ').toLowerCase()
+      const inputName = segs.join('_').toLowerCase()
       inputs[inputName] = value.trim()
     }
   }

@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@zeit/ncc": "^0.20.5",
-    "np": "^7.6.0",
+    "np": "^8.0.4",
     "prettier-standard": "^15.0.1",
     "standard": "^14.3.1"
   }
